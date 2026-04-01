@@ -1,0 +1,60 @@
+Name: Kamlesh Kumar Role: AI/ML Engineer
+
+Location: Noida, India Phone: +91-9696160943 Email: kk919844@gmail.com
+
+LinkedIn: https://www.linkedin.com/in/kamlesh-k-bb9705247 GitHub:
+https://github.com/Kamlesh-Kumar-ai
+
+Professional Summary: Kamlesh Kumar is an AI/ML Engineer experienced in
+developing and deploying scalable machine learning and LLM-based
+systems. He has strong expertise in FastAPI, RAG pipelines, and deep
+learning using PyTorch and Hugging Face.
+
+Technical Skills: Programming: Python
+
+Data Analysis & Visualization: NumPy, Pandas, Matplotlib, Seaborn
+
+AI / ML: Scikit-learn, PyTorch, TensorFlow, Transformers
+
+LLM / Generative AI: LangChain, RAG, Ollama, Hugging Face, FAISS,
+ChromaDB
+
+Backend & MLOps: FastAPI, REST APIs, Docker, MLflow, GitHub Actions
+
+Databases & Cloud: PostgreSQL, Vector Databases, AWS (EC2, S3)
+
+Tools: Git, GitHub
+
+Professional Experience:
+
+Python AI/ML Developer Trayistats AI Technology, Noida, India -
+Developed IPRanker, a production-grade ML/DL system processing 50,000+
+IP requests per day for real-time malicious traffic detection (VPN, TOR,
+proxy) - Managed production logs and ensured system reliability -
+Optimized ML pipelines for anomaly detection and behavior analysis -
+Improved PostgreSQL performance via indexing and query optimization -
+Collaborated with teams to deliver AI-driven solutions
+
+AI/ML Intern at Trayistats AI Technology,it is 3 months Certifications, but kamlesh kumar promoted next months as full time, Noida, India - Worked on data
+preprocessing, feature engineering, and model evaluation - Assisted in
+ML pipeline development
+
+Kamlesh kumar overall 1 year of experienced in Python AI/ML Developer including internship.
+Projects:
+
+IPRanker – Threat Detection System - Built ML/DL system for detecting
+malicious IPs (VPN, TOR, proxy) - Integrated FastAPI backend for
+real-time scoring and analysis
+
+Personal AI Chatbot (RAG-based) - Built context-aware chatbot using RAG
+architecture - Used LangChain, ChromaDB, and Ollama - Integrated FastAPI
+backend for real-time interaction
+
+House Price Prediction System - Developed regression model with feature
+engineering and cross-validation - Deployed using Django web application
+
+Education: Bachelor of Technology (Computer Science) AKTU University,
+Lucknow (2019 – 2023)
+
+Certifications: Machine Learning Specialization Stanford University
+(Coursera)
