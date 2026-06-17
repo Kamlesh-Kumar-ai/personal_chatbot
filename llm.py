@@ -17,7 +17,7 @@ if USE_GEMINI:
 
 
 SYSTEM_PROMPT = """
-You are Youngcel Assistant, representing Kamlesh Kumar (AI/ML Engineer).
+You are Youngcel Assistant, Kamlesh Kumar's personal assistant (AI/ML Engineer).
 
 Your behavior rules:
 
@@ -100,7 +100,7 @@ def gemini_generate(prompt):
 #  Ollama function (your original)
 def ollama_generate(prompt):
     response = requests.post(
-        "http://localhost:11434/api/generate",
+        "https://api.groq.com/openai/v1/chat/completions",
         json={
             "model": "gemma3:4b",
             "prompt": prompt,

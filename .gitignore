@@ -1,13 +1,33 @@
-# Virtual environment
-env/
+# Virtual Environment
 venv/
+env/
+.venv/
 
-# Python cache
-__pycache__/
-*.pyc
-
-# Environment variables
+# Environment Variables
 .env
 
-# OS files
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Chainlit
+.chainlit/translations
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Build
+dist/
+build/

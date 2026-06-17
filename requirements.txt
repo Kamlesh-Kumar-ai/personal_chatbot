@@ -3,3 +3,5 @@ uvicorn
 langchain
 google-generativeai
 python-dotenv
+chainlit
+aiofiles
