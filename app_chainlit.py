@@ -72,6 +72,3 @@ async def main(message: cl.Message):
 
     await msg.update()
 
-
-if __name__ == "__main__":
-    cl.run()
