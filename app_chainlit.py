@@ -55,10 +55,22 @@ async def main(message: cl.Message):
     user_data["history"] = history
     
     # Send response
-    await cl.Message(
-        content=answer,
+    # await cl.Message(
+    #     content=answer,
+    #     author="Youngcel Assistant"
+    # ).send()
+    # Send response word by word
+    msg = cl.Message(
+        content="",
         author="Youngcel Assistant"
-    ).send()
+    )
+
+    await msg.send()
+
+    for word in answer.split():
+        await msg.stream_token(word + " ")
+
+    await msg.update()
 
 
 if __name__ == "__main__":
