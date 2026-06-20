@@ -1,18 +1,24 @@
 import os
 import requests
 from dotenv import load_dotenv
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load env
 load_dotenv()
 
 USE_GEMINI = os.getenv(
     "USE_GEMINI",
-    "false"
+    "true"
 ).lower() == "true"
 
 GEMINI_API_KEY = os.getenv(
     "GEMINI_API_KEY"
 )
+logger.info(f"USE_GEMINI: {USE_GEMINI}")
+logger.info(f"GEMINI_API_KEY EXIST = {bool(GEMINI_API_KEY)}")
 
 # Ollama Config
 OLLAMA_MODEL = os.getenv(
