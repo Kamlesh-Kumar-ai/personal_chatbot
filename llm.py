@@ -5,15 +5,37 @@ from dotenv import load_dotenv
 # Load env
 load_dotenv()
 
-USE_GEMINI = os.getenv("USE_GEMINI", "false").lower() == "true"
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+USE_GEMINI = os.getenv(
+    "USE_GEMINI",
+    "false"
+).lower() == "true"
 
-# Load OpenAI only if needed
-if USE_GEMINI:
+GEMINI_API_KEY = os.getenv(
+    "GEMINI_API_KEY"
+)
+
+# Ollama Config
+OLLAMA_MODEL = os.getenv(
+    "OLLAMA_MODEL",
+    "gemma3:4b"
+)
+
+OLLAMA_URL = os.getenv(
+    "OLLAMA_URL",
+    "http://localhost:11434/api/generate"
+)
+
+# Load Gemini only if needed
+if USE_GEMINI and GEMINI_API_KEY:
     import google.generativeai as genai
-    genai.configure(api_key = GEMINI_API_KEY)
-    model = genai.GenerativeModel("gemini-3-flash-preview")
 
+    genai.configure(
+        api_key=GEMINI_API_KEY
+    )
+
+    model = genai.GenerativeModel(
+        "gemini-2.5-flash"
+    )
 
 
 SYSTEM_PROMPT = """
@@ -24,15 +46,11 @@ Your behavior rules:
 1. First Greeting Rule:
 - If the user greets (hi, hello, hey) for the FIRST time:
   → Respond with a short greeting + introduction.
-  → Example:
-    "Hello! I'm Youngcel Assistant, representing Kamlesh Kumar, an AI/ML Engineer. How can I help you today?"
 
 2. Repeat Greeting Rule:
 - If the user greets AGAIN:
   → Do NOT repeat introduction.
   → Respond naturally like a human.
-  → Example:
-    "Hey again! What would you like to know?"
 
 3. Response Style:
 - Keep responses short, clear, and professional.
@@ -43,7 +61,8 @@ Your behavior rules:
 4. Identity Rule:
 - Always act as assistant of Kamlesh Kumar.
 - If asked "who are you":
-  → Say: "I'm Youngcel Assistant, representing Kamlesh Kumar."
+  → Say:
+  "I'm Youngcel Assistant, representing Kamlesh Kumar."
 
 5. Focus:
 - Help users explore Kamlesh Kumar's:
@@ -58,70 +77,112 @@ Your behavior rules:
 - Do NOT generate unnecessary details.
 
 Now respond based on user input.
-
 """
 
 
 def build_prompt(query, docs, history, introduced):
+
     context = "\n".join(docs)
 
     history_text = ""
+
     for h in history[-5:]:
-        history_text += f"User: {h['user']}\nAssistant: {h['assistant']}\n"
+        history_text += (
+            f"User: {h['user']}\n"
+            f"Assistant: {h['assistant']}\n"
+        )
 
     prompt = f"""
-    {SYSTEM_PROMPT}
+{SYSTEM_PROMPT}
 
-    Conversation History:
-    {history_text}
+Conversation History:
+{history_text}
 
-    User already introduced: {"YES" if introduced else "NO"}
+User already introduced:
+{"YES" if introduced else "NO"}
 
-    Context:
-    {context}
+Context:
+{context}
 
-    User Query:
-    {query}
+User Query:
+{query}
 
-    Answer:
-    """
+Answer:
+"""
 
     return prompt
 
 
-#  OpenAI function
+# Gemini Function
 def gemini_generate(prompt):
+
     response = model.generate_content(
-       prompt
+        prompt
     )
+
     return response.text
 
 
-#  Ollama function (your original)
+# Ollama Function
 def ollama_generate(prompt):
+
     response = requests.post(
-        "https://api.groq.com/openai/v1/chat/completions",
+        OLLAMA_URL,
         json={
-            "model": "gemma3:4b",
+            "model": OLLAMA_MODEL,
             "prompt": prompt,
             "stream": False
-        }
+        },
+        timeout=120
     )
-    return response.json()["response"]
+
+    response.raise_for_status()
+
+    data = response.json()
+
+    return data["response"]
 
 
-#  MAIN FUNCTION (SMART SWITCH)
-def generate_answer(query, docs, history, introduced):
-    prompt = build_prompt(query, docs, history, introduced)
+# MAIN FUNCTION
+def generate_answer(
+    query,
+    docs,
+    history,
+    introduced
+):
+
+    prompt = build_prompt(
+        query,
+        docs,
+        history,
+        introduced
+    )
 
     try:
-        # Try OpenAI first (if enabled)
+
+        # Use Gemini if enabled
         if USE_GEMINI and GEMINI_API_KEY:
             return gemini_generate(prompt)
 
-        # fallback use Ollama
+        # Otherwise use Ollama
         return ollama_generate(prompt)
 
     except Exception as e:
-        print("⚠️ GEMINI failed, fallback to Ollama:", e)
-        return ollama_generate(prompt)
+
+        print(
+            f"⚠️ Primary model failed: {e}"
+        )
+
+        # Fallback to Ollama
+        try:
+            return ollama_generate(prompt)
+
+        except Exception as ollama_error:
+
+            print(
+                f"⚠️ Ollama failed: {ollama_error}"
+            )
+
+            return (
+                "Sorry, I am temporarily unavailable."
+            )

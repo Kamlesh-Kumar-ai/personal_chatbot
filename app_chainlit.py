@@ -5,6 +5,12 @@ from llm import generate_answer
 # Session storage
 chat_history = {}
 
+@cl.on_message
+async def main(message:cl.message):
+    ans = "render is working successfully"
+    await cl.Message(
+        content=ans,
+    ).send()
 @cl.on_chat_start
 async def start():
     """Called when a new chat session starts"""
@@ -71,4 +77,5 @@ async def main(message: cl.Message):
         await msg.stream_token(word + " ")
 
     await msg.update()
+
 
